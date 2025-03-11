@@ -13,6 +13,8 @@ return {
         "typescript-language-server",
         "css-lsp",
         "ruby-lsp",
+        "erb-formatter",
+        "erb-lint",
       })
     end,
   },
@@ -30,6 +32,16 @@ return {
             return require("lspconfig.util").root_pattern(".git")(...)
           end,
         },
+        ruby_lsp = {
+          enabled = lsp == "ruby-lsp",
+        },
+        solargraph = {
+          enabled = lsp == "solargraph",
+        },
+        rubocop = {
+          enabled = formatter == "rubocop" and lsp ~= "solargraph",
+        },
+
         tsserver = {
           root_dir = function(...)
             return require("lspconfig.util").root_pattern(".git")(...)
