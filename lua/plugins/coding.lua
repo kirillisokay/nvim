@@ -14,6 +14,11 @@ return {
     opts = { snippet_engine = "luasnip" },
   },
 
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = { "rafamadriz/friendly-snippets" },
+  },
+
   -- Incremental rename
   {
     "smjonas/inc-rename.nvim",

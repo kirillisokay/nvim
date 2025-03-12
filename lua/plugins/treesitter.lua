@@ -3,6 +3,9 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "RRethy/nvim-treesitter-endwise", -- Add this line
+    },
     opts = {
       ensure_installed = {
         "bash",
@@ -14,6 +17,14 @@ return {
         "typescript",
         "json",
         "lua",
+      },
+
+      endwise = {
+        enable = true,
+      },
+
+      indent = {
+        enable = true,
       },
 
       -- matchup = {

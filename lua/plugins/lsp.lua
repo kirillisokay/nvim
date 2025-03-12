@@ -33,15 +33,29 @@ return {
           end,
         },
         ruby_lsp = {
-          enabled = lsp == "ruby-lsp",
+          cmd = { "bundle", "exec", "ruby-lsp" },
+          filetypes = { "ruby" },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("Gemfile", ".git")(fname)
+          end,
+          settings = {
+            rubyLsg = {},
+          },
         },
         solargraph = {
-          enabled = lsp == "solargraph",
+          cmd = { "bundle", "exec", "solargraph", "stdio" }, -- Use `bundle exec` if you're using Bundler
+          filetypes = { "ruby" },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("Gemfile", ".git")(fname)
+          end,
+          settings = {
+            solargraph = {
+              diagnostics = true,
+              formatting = true,
+            },
+          },
         },
-        rubocop = {
-          enabled = formatter == "rubocop" and lsp ~= "solargraph",
-        },
-
+        rubocop = {},
         tsserver = {
           root_dir = function(...)
             return require("lspconfig.util").root_pattern(".git")(...)

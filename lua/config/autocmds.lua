@@ -12,3 +12,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt.conceallevel = 0
   end,
 })
+
+vim.opt.autoindent = true
+vim.opt.smartindent = true

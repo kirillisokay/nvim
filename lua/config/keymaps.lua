@@ -4,7 +4,7 @@ discipline.cowboy()
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
-
+vim.api.nvim_set_keymap("n", ".", ".", { noremap = true, silent = true })
 -- Do things without affecting the registers
 keymap.set("n", "x", '"_x')
 keymap.set("n", "<Leader>p", '"0p')
