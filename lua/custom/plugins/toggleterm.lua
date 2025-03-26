@@ -2,7 +2,6 @@ return {
   'akinsho/toggleterm.nvim',
   version = '*',
   config = function()
-    -- Basic setup for toggleterm
     require('toggleterm').setup {
       size = function(term)
         if term.direction == 'horizontal' then
@@ -36,7 +35,7 @@ return {
 
     -- Rails Server Terminal (horizontal split)
     local rails_server = Terminal:new {
-      cmd = 'rails server',
+      cmd = 'bin/dev',
       hidden = true, -- Don't show this terminal by default
       direction = 'horizontal',
       on_open = function(term)
@@ -46,6 +45,12 @@ return {
         vim.cmd 'stopinsert!'
       end,
     }
+
+    function _G.stop_rails_server()
+      if rails_server:is_open() then
+        rails_server:send '\03' -- Sends Ctrl+C to the terminal
+      end
+    end
 
     -- Rails Console Terminal (vertical split)
     local rails_console = Terminal:new {
@@ -73,6 +78,7 @@ return {
     -- Function to toggle each terminal
     function _G.toggle_rails_server()
       rails_server:toggle()
+      vim.cmd 'wincmd p'
     end
 
     function _G.toggle_rails_console()
@@ -87,6 +93,7 @@ return {
     vim.api.nvim_set_keymap('n', '<leader>rs', '<cmd>lua toggle_rails_server()<CR>', { noremap = true, silent = true, desc = 'Toggle Rails Server' })
     vim.api.nvim_set_keymap('n', '<leader>rc', '<cmd>lua toggle_rails_console()<CR>', { noremap = true, silent = true, desc = 'Toggle Rails Console' })
     vim.api.nvim_set_keymap('n', '<leader>rt', '<cmd>lua toggle_rspec()<CR>', { noremap = true, silent = true, desc = 'Toggle RSpec Tests' })
+    vim.api.nvim_set_keymap('n', '<leader>rx', '<cmd>lua stop_rails_server()<CR>', { noremap = true, silent = true, desc = 'Stop Rails Server' })
 
     -- Optional: Keybinding to send a specific RSpec file to the test terminal
     vim.api.nvim_set_keymap('n', '<leader>rf', ":TermExec cmd='rspec %' go_back=0<CR>", { noremap = true, silent = true, desc = 'Run RSpec on Current File' })
