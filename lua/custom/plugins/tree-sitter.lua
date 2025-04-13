@@ -6,6 +6,7 @@ return {
       ensure_installed = {
         'ruby',
         'html',
+        'sql',
         'javascript',
         'css',
       },

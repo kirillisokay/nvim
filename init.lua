@@ -379,6 +379,7 @@ require('lazy').setup {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
+      'saghen/blink.cmp',
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
@@ -584,11 +585,12 @@ require('lazy').setup {
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
-
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
-          -- capabilities = {},
+          capabilities = {
+            require('blink.cmp').get_lsp_capabilities(),
+          },
           settings = {
             Lua = {
               completion = {
@@ -631,6 +633,7 @@ require('lazy').setup {
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+            require('lspconfig').htmx.setup()
           end,
         },
       }
