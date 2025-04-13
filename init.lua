@@ -196,6 +196,7 @@ require('lazy').setup {
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    version = '*',
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
@@ -236,8 +237,6 @@ require('lazy').setup {
           F12 = '<F12>',
         },
       },
-
-      -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
@@ -246,6 +245,37 @@ require('lazy').setup {
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        {
+          '<leader>b',
+          group = '[B]uffer',
+          expand = function()
+            return require('which-key').keys.register {
+              b = { '<cmd>BufferLinePick<cr>', 'Pick buffer' },
+              p = { '<cmd>BufferLineTogglePin<cr>', 'Pin buffer' },
+              c = { '<cmd>BufferLinePickClose<cr>', 'Close buffer (pick)' },
+              n = { '<cmd>BufferLineCycleNext<cr>', 'Next buffer' },
+              e = { '<cmd>BufferLineCyclePrev<cr>', 'Previous buffer' },
+              s = {
+                name = 'Sort',
+                t = { '<cmd>BufferLineSortByTabs<cr>', 'Sort by tabs' },
+                d = { '<cmd>BufferLineSortByDirectory<cr>', 'Sort by directory' },
+                e = { '<cmd>BufferLineSortByExtension<cr>', 'Sort by extension' },
+              },
+              g = {
+                name = 'Go to',
+                ['1'] = { '<cmd>BufferLineGoToBuffer 1<cr>', 'Go to buffer 1' },
+                ['2'] = { '<cmd>BufferLineGoToBuffer 2<cr>', 'Go to buffer 2' },
+                ['3'] = { '<cmd>BufferLineGoToBuffer 3<cr>', 'Go to buffer 3' },
+                ['4'] = { '<cmd>BufferLineGoToBuffer 4<cr>', 'Go to buffer 4' },
+                ['5'] = { '<cmd>BufferLineGoToBuffer 5<cr>', 'Go to buffer 5' },
+                ['6'] = { '<cmd>BufferLineGoToBuffer 6<cr>', 'Go to buffer 6' },
+                ['7'] = { '<cmd>BufferLineGoToBuffer 7<cr>', 'Go to buffer 7' },
+                ['8'] = { '<cmd>BufferLineGoToBuffer 8<cr>', 'Go to buffer 8' },
+                ['9'] = { '<cmd>BufferLineGoToBuffer 9<cr>', 'Go to buffer 9' },
+              },
+            }
+          end,
+        },
       },
     },
   },
@@ -633,7 +663,6 @@ require('lazy').setup {
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
-            require('lspconfig').htmx.setup()
           end,
         },
       }
