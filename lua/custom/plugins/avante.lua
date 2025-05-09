@@ -1,46 +1,50 @@
 return {
   'yetone/avante.nvim',
   event = 'VeryLazy',
-  version = false, -- Never set this value to "*"! Never!
-  opts = {
-    provider = 'gemini',
-    gemini = {
-      model = 'gemini-2.0-flash',
-      timeout = 30000,
-      temperature = 0,
-    },
-  },
+  version = false,
   build = 'make',
+  config = function()
+    local secrets = require 'secrets'
+
+    require('avante').setup {
+      ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
+      provider = 'groq',
+      vendors = {
+        groq = {
+          __inherited_from = 'openai',
+          api_key = secrets.GROQ_API_KEY,
+          endpoint = 'https://api.groq.com/openai/v1/',
+          model = 'whisper-large-v3',
+          max_tokens = 8192,
+        },
+      },
+    }
+  end,
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
     'stevearc/dressing.nvim',
     'nvim-lua/plenary.nvim',
     'MunifTanjim/nui.nvim',
-    --- The below dependencies are optional,
-    'echasnovski/mini.pick', -- for file_selector provider mini.pick
-    'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
-    'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
-    'ibhagwan/fzf-lua', -- for file_selector provider fzf
-    'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
+    'echasnovski/mini.pick', -- optional
+    'nvim-telescope/telescope.nvim', -- optional
+    'hrsh7th/nvim-cmp', -- optional
+    'ibhagwan/fzf-lua', -- optional
+    'nvim-tree/nvim-web-devicons', -- or mini.icons
     {
-      -- support for image pasting
       'HakonHarnes/img-clip.nvim',
       event = 'VeryLazy',
       opts = {
-        -- recommended settings
         default = {
           embed_image_as_base64 = false,
           prompt_for_file_name = false,
           drag_and_drop = {
             insert_mode = true,
           },
-          -- required for Windows users
           use_absolute_path = true,
         },
       },
     },
     {
-      -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
         file_types = { 'markdown', 'Avante' },

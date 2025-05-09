@@ -43,5 +43,17 @@ return {
     vim.keymap.set('n', '<Leader>rg', function()
       require('ror.commands').list_commands()
     end, { silent = true, desc = 'RoR Commands' })
+
+    vim.keymap.set('n', '<Leader>rq', function()
+      require('ror.schema').list_table_columns()
+    end, { desc = 'RoR Table Schema' })
+
+    vim.keymap.set('n', '<Leader>rr', function()
+      require('ror.schema').list_routes()
+    end, { desc = 'RoR List Routes' })
+
+    vim.keymap.set('n', '<Leader>ry', function()
+      require('ror.schema').sync_routes()
+    end, { desc = 'RoR Sync Routes' })
   end,
 }

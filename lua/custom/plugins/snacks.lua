@@ -248,16 +248,14 @@ return {
       end,
       desc = 'Colorschemes',
     },
-    -- search word
+
+    -- other utils
     {
-      '<leader>sw',
+      '<leader>vh',
       function()
-        local word = vim.fn.expand '<cword>'
-        require('snacks').picker('live_grep', {
-          default = word,
-        })
+        require('snacks').picker.help()
       end,
-      desc = 'Search Word',
+      desc = 'Help Pages',
     },
   },
 }
