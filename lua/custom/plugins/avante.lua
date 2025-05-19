@@ -1,21 +1,19 @@
+local secrets = require 'custom.plugins.secrets'
 return {
   'yetone/avante.nvim',
   event = 'VeryLazy',
   version = false,
   build = 'make',
   config = function()
-    local secrets = require 'secrets'
-
     require('avante').setup {
       ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-      provider = 'groq',
+      provider = 'deepseek',
       vendors = {
-        groq = {
-          __inherited_from = 'openai',
-          api_key = secrets.GROQ_API_KEY,
-          endpoint = 'https://api.groq.com/openai/v1/',
-          model = 'whisper-large-v3',
-          max_tokens = 8192,
+        deepseek = {
+          api_key = secrets.DEEPSEEK_API_KEY, -- Make sure this is correct!
+          endpoint = 'https://api.deepseek.com/v1', -- Try adding `/v1`
+          model = 'deepseek-chat', -- Try "deepseek-chat" or "deepseek-coder"
+          max_tokens = 4096, -- Lower if needed
         },
       },
     }
